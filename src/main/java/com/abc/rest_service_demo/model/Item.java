@@ -1,5 +1,8 @@
 package com.abc.rest_service_demo.model;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class Item {
     private String id;
     private String name;

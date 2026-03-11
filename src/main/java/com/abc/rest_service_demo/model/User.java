@@ -1,9 +1,11 @@
 package com.abc.rest_service_demo.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor
 public class User {
     private String id;
     private String userName;
