@@ -1,14 +1,17 @@
 package com.abc.rest_service_demo.Controller;
 
 import com.abc.rest_service_demo.Service.DBSimulatedService;
+import com.abc.rest_service_demo.dao.JdbcDao;
 import com.abc.rest_service_demo.model.Item;
 import com.abc.rest_service_demo.model.User;
+import com.abc.rest_service_demo.model.UserModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -17,16 +20,33 @@ public class CartsController {
 
     @Autowired
     private DBSimulatedService dbSimulatedService;
+    @Autowired
+    private JdbcDao jdbcDao;
 
     @PostMapping(path = "/user")
-    public ResponseEntity<User> createUser(@RequestBody User user){
+//    public ResponseEntity<User> createUser(@RequestBody User user){
+//        try{
+//            log.info("received request for user"+user);
+//
+//            User createdUser = dbSimulatedService.createUser(user);
+//            createdUser.setPassword(null);
+//
+//            return ResponseEntity.ok(createdUser);
+//        }catch (Exception e){
+//            return ResponseEntity.internalServerError().build();
+//        }
+//
+//    }
+    public ResponseEntity<UserModel> createUser(@RequestBody UserModel user){
         try{
             log.info("received request for user"+user);
 
-            User createdUser = dbSimulatedService.createUser(user);
-            createdUser.setPassword(null);
-
-            return ResponseEntity.ok(createdUser);
+            int rowsAffected = jdbcDao.createUser(user);
+            if(rowsAffected > 0) {
+                return ResponseEntity.ok(user);
+            } else {
+                return ResponseEntity.internalServerError().build();
+            }
         }catch (Exception e){
             return ResponseEntity.internalServerError().build();
         }
@@ -47,12 +67,18 @@ public class CartsController {
         }
     }
 
-    @GetMapping(path = "/users")
-    public List<User> getAllUsers(){
-       return dbSimulatedService.getAllUsers();
-     }
+//    @GetMapping(path = "/users")
+//    public List<User> getAllUsers(){
+//       return dbSimulatedService.getAllUsers();
+//     }
 
-     @PostMapping(path = "/user/{userId}/carts")
+    @GetMapping(path = "/users")
+    public List<UserModel> getAllUsers(){
+        return jdbcDao.findAllUsers();
+    }
+
+
+    @PostMapping(path = "/user/{userId}/carts")
         public ResponseEntity<Item> createCarts(@PathVariable("userId") String userId, @RequestBody Item item){
             try{
                 Item createdItem = dbSimulatedService.createItem(userId, item);

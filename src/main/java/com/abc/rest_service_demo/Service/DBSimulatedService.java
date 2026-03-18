@@ -1,6 +1,8 @@
 package com.abc.rest_service_demo.Service;
 import com.abc.rest_service_demo.model.Item;
 import com.abc.rest_service_demo.model.User;
+import exception.InvalidItemException;
+import exception.InvalidUserException;
 import org.springframework.stereotype.Service;
 
 
@@ -61,9 +63,7 @@ public class DBSimulatedService {
 
     public Item updateItemById(String userId, String itemId, Item item){
         User user = getUserById(userId);
-        if(user == null){
-            return null;
-        }
+        if(user == null) throw new InvalidUserException("User with id " + userId + " not found");
         Item storedItem = null;
         List<Item> itemList = user.getItemList();
        for(Item i:itemList){
@@ -72,12 +72,10 @@ public class DBSimulatedService {
                break;
               }
        }
-         if(storedItem == null){
-              return null;
-         }
-            storedItem.setName(item.getName());
-            storedItem.setDescription(item.getDescription());
-            storedItem.setQuantity(item.getQuantity());
+         if(storedItem == null) throw new InvalidItemException("Item with id " + itemId + " not found for user with id " + userId);
+         storedItem.setName(item.getName());
+         storedItem.setDescription(item.getDescription());
+         storedItem.setQuantity(item.getQuantity());
 //            itemList.add(storedItem);
 //            user.setItemList(itemList);
 
