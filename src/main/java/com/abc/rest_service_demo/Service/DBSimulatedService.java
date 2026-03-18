@@ -1,8 +1,8 @@
 package com.abc.rest_service_demo.Service;
 import com.abc.rest_service_demo.model.Item;
 import com.abc.rest_service_demo.model.User;
-import exception.InvalidItemException;
-import exception.InvalidUserException;
+import com.abc.rest_service_demo.exception.InvalidItemException;
+import com.abc.rest_service_demo.exception.InvalidUserException;
 import org.springframework.stereotype.Service;
 
 

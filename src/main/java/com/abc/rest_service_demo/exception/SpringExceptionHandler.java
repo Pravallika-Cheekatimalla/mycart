@@ -1,4 +1,4 @@
-package exception;
+package com.abc.rest_service_demo.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

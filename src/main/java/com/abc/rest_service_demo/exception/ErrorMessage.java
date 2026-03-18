@@ -1,4 +1,4 @@
-package exception;
+package com.abc.rest_service_demo.exception;
 
 public class ErrorMessage {
     private String errorMessage;
